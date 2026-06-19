@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "panel:build:production"
+              "buildTarget": "iran-ideas-hub:build:production"
             },
             "development": {
-              "buildTarget": "panel:build:development"
+              "buildTarget": "iran-ideas-hub:build:development"
             }
           },
           "defaultConfiguration": "development"

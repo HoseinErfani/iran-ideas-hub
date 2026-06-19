@@ -16,14 +16,17 @@ export interface BreadcrumbItem {
       class="glass rounded-3xl p-4 bg-white/5 backdrop-blur-md border border-white/10 flex items-center gap-2 text-sm text-slate-400"
       dir="rtl"
     >
-      <div *ngFor="let item of items(); let last = last" class="flex items-center gap-2">
+      <div
+        *ngFor="let item of items(); let last = last"
+        class="flex items-center gap-2 max-w-[34%] truncate lg:max-w-none"
+      >
         <span
           (click)="!last && onItemClick.emit(item)"
           [ngClass]="{
             'hover:text-white cursor-pointer transition': !last,
             'text-brand-400 font-medium': last,
           }"
-          class="truncate max-w-[34%] text-ellipsis"
+          [title]="item.label"
         >
           {{ item.label }}
         </span>
