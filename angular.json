@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "panel": {
+    "iran-ideas-hub": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -30,10 +30,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/tailwind.css",
-              "src/styles.scss"
-            ]
+            "styles": ["src/tailwind.css", "src/styles.scss"]
           },
           "configurations": {
             "production": {
