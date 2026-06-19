@@ -23,7 +23,7 @@ export interface BreadcrumbItem {
             'hover:text-white cursor-pointer transition': !last,
             'text-brand-400 font-medium': last,
           }"
-          class="truncate max-w-[180px]"
+          class="truncate max-w-[34%] text-ellipsis"
         >
           {{ item.label }}
         </span>
