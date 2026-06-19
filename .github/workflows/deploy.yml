@@ -22,10 +22,12 @@ jobs:
         run: npm ci
 
       - name: Build Project
-        run: npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+        run: |
+          npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+          cp dist/${{ github.event.repository.name }}/browser/index.html dist/${{ github.event.repository.name }}/browser/404.html
 
       - name: Upload to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/${{ github.event.repository.name }}/browser # اگر آنگولار ۱۷ به بالا هستید پوشه browser اضافه می‌شود، در غیر این صورت فقط dist/name را بگذارید
+          folder: dist/${{ github.event.repository.name }}/browser
           branch: gh-pages
