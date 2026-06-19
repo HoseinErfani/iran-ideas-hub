@@ -1,0 +1,31 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # هر زمان که روی شاخه main پوش کنید، این پروسه شروع می‌شود
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-node-version: 26
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Upload to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/${{ github.event.repository.name }}/browser # اگر آنگولار ۱۷ به بالا هستید پوشه browser اضافه می‌شود، در غیر این صورت فقط dist/name را بگذارید
+          branch: gh-pages
