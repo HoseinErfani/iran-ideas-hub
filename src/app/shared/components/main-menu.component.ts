@@ -39,7 +39,7 @@ export interface MenuItem{
         <nav class="mt-6 space-y-2 flex-1">
           @for (item of menu(); track item.path) {
             <a
-              [routerLink]="['/user', item.path]"
+              [routerLink]="[ item.path]"
               routerLinkActive="bg-cyan-500/20 text-white border-cyan-400/40"
               (click)="isMenuOpen.set(false)"
               class="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm text-slate-300 transition hover:bg-white/5"
