@@ -669,7 +669,33 @@ export class IdeaBoardComponent implements OnInit ,OnDestroy{
       author: { name: 'دکتر ارسلان حکیمی', role: 'استادیار دانشکده منابع آب شریف', avatar: '' },
       attachments: [{ name: 'پروپوزال_فنی.pdf', type: 'pdf', size: '4.2 MB' }],
       comments: [
-        { id: 'c1-1', author: 'دکتر علوی', text: 'طرح خوبیه.', likes: 24, date: '۲ ساعت قبل', replies: [] }
+        {
+          id: 'c1-1',
+          author: 'دکتر علوی',
+          text: 'طرح خوبیه، اما در بحث کالیبراسیون سنسورها در مواجهه با رسوبات کانال‌های سنتی چه راهکاری دارید؟',
+          likes: 24,
+          date: '۲ ساعت قبل',
+          replies: [
+            {
+              id: 'c1-1-r1',
+              author: 'دکتر ارسلان حکیمی',
+              text: 'ممنون از توجهتون. از سنسورهای التراسونیک غیرتماسی کلمپ-آن استفاده می‌کنیم تا رسوبات تأثیری روی دقت اندازه‌گیری نگذارند.',
+              likes: 12,
+              date: '۱ ساعت قبل',
+              replies: [
+                {
+                  id: 'c1-1-r2',
+                  author: 'دکتر علوی',
+                  text: 'عالیه، این مشکل نگهداری دوره‌ای رو تا حد زیادی حل میکنه.',
+                  likes: 5,
+                  date: '۳۰ دقیقه قبل',
+                  replies: []
+                }
+              ]
+            }
+          ]
+        },
+        { id: 'c1-2', author: 'مهندس رضا کرمی', text: 'بخش سخت‌افزاری پروتکل لوراوان (LoRaWAN) برای این حجم از سنسور مقرون به صرفه‌ترین گزینه‌ است.', likes: 8, date: '۴ ساعت قبل', replies: [] }
       ]
     },
     {
@@ -679,7 +705,25 @@ export class IdeaBoardComponent implements OnInit ,OnDestroy{
       fullHtmlContent: MOCK_HTML_DOCUMENT,
       likes: 98,
       author: { name: 'مهندس فرزاد فرخی', role: 'پژوهشگر اقتصاد کشاورزی', avatar: '' },
-      comments: []
+      comments: [
+        {
+          id: 'c2-1',
+          author: 'سارا احمدی',
+          text: 'فشار اقتصادی این کار روی کشاورزان خرده‌پا در فاز اول چطور مدیریت میشه؟',
+          likes: 15,
+          date: 'دیروز',
+          replies: [
+            {
+              id: 'c2-1-r1',
+              author: 'مهندس فرزاد فرخی',
+              text: 'سوبسید بلافاصله قطع نمیشه؛ در یک بازه ۶ ماهه و همزمان با اعطای وام سازه‌های گلخانه‌ای سبک فازبندی میشه.',
+              likes: 9,
+              date: '۱۸ ساعت قبل',
+              replies: []
+            }
+          ]
+        }
+      ]
     },
     {
       id: 'idea-3',
@@ -687,7 +731,89 @@ export class IdeaBoardComponent implements OnInit ,OnDestroy{
       description: 'الزام اپراتورهای همراه به تهاتر هزینه‌های فرکانسی سالانه با حفر، داکت‌گذاری و اتصال پورت‌های فیبر نوری خانگی شهری.',
       fullHtmlContent: MOCK_HTML_DOCUMENT,
       likes: 210,
-      author: { name: 'مهندس سهراب سپهری', role: 'مدیر زیرساخت', avatar: '' },
+      author: { name: 'مهندس سهراب سپهری', role: 'مدیر زیرساخت مخابرات', avatar: '' },
+      attachments: [{ name: 'استاندارد_صنعت_FTTH.pdf', type: 'pdf', size: '1.8 MB' }],
+      comments: [
+        {
+          id: 'c3-1',
+          author: 'امید شایان',
+          text: 'یک ایده برد-برد واقعی. اپراتورها به جای خروج نقدینگی، روی دارایی‌های ثابت خود سرمایه‌گذاری می‌کنند.',
+          likes: 45,
+          date: '۲ روز قبل',
+          replies: []
+        }
+      ]
+    },
+    {
+      id: 'idea-4',
+      title: 'سیستم یکپارچه مانیتورینگ سلامت ترانسفورماتورهای توزیع برق',
+      description: 'پیاده‌سازی گیت‌وی‌های ارزان‌قیمت روی ترانس‌های شهری برای سنجش دمای روغن و بار مصرفی جهت پیش‌بینی و جلوگیری از سوختن آن‌ها قبل از وقوع حادثه.',
+      fullHtmlContent: MOCK_HTML_DOCUMENT,
+      likes: 175,
+      author: { name: 'مهندس نیما راد', role: 'کارشناس ارشد دیسپاچینگ توانیر', avatar: '' },
+      comments: [
+        {
+          id: 'c4-1',
+          author: 'وحید جلیلی',
+          text: 'داده‌ها به چه صورت ارسال میشن؟ از سیم‌کارت استفاده میشه یا شبکه اختصاصی؟',
+          likes: 11,
+          date: '۳ ساعت قبل',
+          replies: [
+            {
+              id: 'c4-1-r1',
+              author: 'مهندس نیما راد',
+              text: 'ترکیبی از ماژول‌های NB-IoT و لوراوان بر اساس توپولوژی جغرافیایی منطقه.',
+              likes: 14,
+              date: '۲ ساعت قبل',
+              replies: [
+                {
+                  id: 'c4-1-r2',
+                  author: 'وحید جلیلی',
+                  text: 'استفاده از NB-IoT پوشش‌دهی داخل پیت‌های زیرزمینی رو هم به شدت تضمین میکنه. عالیه.',
+                  likes: 4,
+                  date: '۱ ساعت قبل',
+                  replies: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'idea-5',
+      title: 'احراز هویت غیرمتمرکز شهروندی بر بستر بلاکچین ملی',
+      description: 'حذف کامل کپی مدارک فیزیکی در سازمان‌ها با استفاده از هویت دیجیتال رمزنگاری شده (DID) بر پایه زنجیره بلوکی کلید عمومی.',
+      fullHtmlContent: MOCK_HTML_DOCUMENT,
+      likes: 320,
+      author: { name: 'دکتر مریم شمس', role: 'رئیس آزمایشگاه رمزنگاری دانشگاه تهران', avatar: '' },
+      comments: [
+        {
+          id: 'c5-1',
+          author: 'پیمان حسینی',
+          text: 'حفظ حریم خصوصی پاشنه آشیل این طرحه. اگر کلید خصوصی شهروند گم بشه فرآیند ریکاوری چطور خواهد بود؟',
+          likes: 52,
+          date: '۵ ساعت قبل',
+          replies: [
+            {
+              id: 'c5-1-r1',
+              author: 'دکتر مریم شمس',
+              text: 'از مکانیزم Social Recovery (بازیابی اجتماعی از طریق امین‌های معتمد انتخاب شده توسط خود شهروند) استفاده میشه تا نیاز به نهاد مرکزی نباشه.',
+              likes: 31,
+              date: '۳ ساعت قبل',
+              replies: []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'idea-6',
+      title: 'سامانه هوشمند پایش خستگی و تمرکز رانندگان ترانزیت',
+      description: 'استفاده از پردازش تصویر لبه‌ای (Edge AI) و دوربین‌های مادون قرمز داخل کابین برای تحلیل نرخ پلک‌زدن و انحراف چشم رانندگان ناوگان سنگین.',
+      fullHtmlContent: MOCK_HTML_DOCUMENT,
+      likes: 189,
+      author: { name: 'مهندس الهام باقری', role: 'توسعه‌دهنده سیستم‌های هوشمند بینایی ماشین', avatar: '' },
       comments: []
     }
   ]);
@@ -699,7 +825,7 @@ export class IdeaBoardComponent implements OnInit ,OnDestroy{
     this.hiddenCommentIdeaIds.set(new Set(allIds));
   }
   ngOnDestroy(): void {
-    this.editor.destroy();
+    this.editor?.destroy();
   }
   openModal(idea: Idea) {
     this.selectedModalIdea.set(idea);
@@ -731,10 +857,8 @@ export class IdeaBoardComponent implements OnInit ,OnDestroy{
 
   closeCreateModal() {
 // ادیتور را تخریب کنید تا حافظه آزاد شود و خطای بعدی ندهد
-    if (this.editor) {
-      this.editor.destroy();
-    }
-    this.isCreateModalOpen.set(false);
+       this.editor?.destroy();
+     this.isCreateModalOpen.set(false);
     document.body.style.overflow = 'auto';
   }
 
