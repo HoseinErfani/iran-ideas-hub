@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { CircosChartComponent } from '../../../shared/components/circos-chart.component';
 
 @Component({
   selector: 'app-admin-reports-page',
   standalone: true,
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, CircosChartComponent],
   template: `
     <div class="p-8 bg-slate-950 min-h-screen text-slate-200" style="direction: rtl;">
       <h1 class="text-3xl font-black text-white mb-2 border-r-4 border-cyan-500 pr-4">
@@ -14,6 +15,13 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
       <p class="text-slate-500 mb-8 pr-6">مجموعه داشبوردهای مدیریتی جهت پایش عملکرد سامانه</p>
 
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
+          <h2 class="text-xl font-bold text-white mb-4">۱. ثبت‌نام کاربران</h2>
+          <div class="">
+            <app-circos-chart [nodes]="nodes" [links]="links"></app-circos-chart>
+          </div>
+        </div>
+
         <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
           <h2 class="text-xl font-bold text-cyan-400 mb-2">۱. ثبت‌نام کاربران</h2>
           <p class="text-sm text-slate-400 mb-6">روند رشد کاربران در بازه‌های زمانی مختلف.</p>
@@ -60,6 +68,45 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
   `,
 })
 export class AdminReportsPageComponent {
+  // در کلاس AdminReportsPageComponent تعریف کنید:
+
+  nodes = [
+    // کاربران (۵ نفر)
+    { id: 'u1', group: 'Person', label: 'مدیر سامانه' },
+    { id: 'u2', group: 'Person', label: 'کارشناس فنی' },
+    { id: 'u3', group: 'Person', label: 'تیم حقوقی' },
+    { id: 'u4', group: 'Person', label: 'مدیر پروژه' },
+    { id: 'u5', group: 'Person', label: 'کاربر ارشد' },
+    // مسائل (۶ عدد)
+    { id: 'p1', group: 'Issue', label: 'باگ شبکه' },
+    { id: 'p2', group: 'Issue', label: 'تغییر قرارداد' },
+    { id: 'p3', group: 'Issue', label: 'ارتقا سرور' },
+    { id: 'p4', group: 'Issue', label: 'آموزش پرسنل' },
+    { id: 'p5', group: 'Issue', label: 'امنیت دیتاسنتر' },
+    { id: 'p6', group: 'Issue', label: 'توسعه رابط' },
+    // دسته‌بندی‌ها (۴ عدد)
+    { id: 'c1', group: 'Category', label: 'فنی' },
+    { id: 'c2', group: 'Category', label: 'حقوقی' },
+    { id: 'c3', group: 'Category', label: 'زیرساخت' },
+    { id: 'c4', group: 'Category', label: 'آموزش' },
+  ];
+
+  links = [
+    { source: 'u1', target: 'p1', value: 80 },
+    { source: 'u2', target: 'p1', value: 60 },
+    { source: 'u3', target: 'p2', value: 90 },
+    { source: 'u4', target: 'p3', value: 75 },
+    { source: 'u2', target: 'p3', value: 50 },
+    { source: 'u5', target: 'p4', value: 40 },
+    { source: 'u1', target: 'p5', value: 95 },
+    { source: 'u4', target: 'p6', value: 65 },
+    { source: 'p1', target: 'c1', value: 100 },
+    { source: 'p6', target: 'c1', value: 100 },
+    { source: 'p2', target: 'c2', value: 100 },
+    { source: 'p3', target: 'c3', value: 100 },
+    { source: 'p5', target: 'c3', value: 100 },
+    { source: 'p4', target: 'c4', value: 100 },
+  ];
   // تنظیمات فونت و ظاهر نمودارها
   commonOptions: ChartOptions = {
     responsive: true,
