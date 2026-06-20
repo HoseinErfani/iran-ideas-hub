@@ -166,10 +166,29 @@ export interface Idea {
 
           <div (click)="toggleAccordion(idea.id)"
                class="p-5 flex items-center justify-between gap-4 cursor-pointer select-none hover:bg-white/[0.01] transition-colors">
-            <h4
-              class="text-base sm:text-lg font-bold text-transparent bg-clip-text bg-gradient-to-l from-white to-slate-200 leading-snug flex-1">
-              {{ idea.title }}
-            </h4>
+
+            <div class="flex flex-col gap-4">
+            <div class="flex gap-4">
+              <div class="relative">
+                <div
+                  class="w-11 h-11 rounded-full border-2 border-cyan-500/20 p-0.5 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-base font-bold text-cyan-400 select-none">
+                  {{ idea.author.name.charAt(0) }}
+                </div>
+                <span
+                  class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-950 rounded-full animate-pulse"></span>
+              </div>
+              <div>
+                <h5 class="text-xs sm:text-sm font-bold text-slate-200">{{ idea.author.name }}</h5>
+                <p class="text-[11px] text-slate-400 mt-0.5">{{ idea.author.role }}</p>
+              </div>
+              </div>
+
+
+              <h4
+                class="text-base sm:text-lg font-bold from-white to-slate-200 leading-snug flex-1 rounded-full bg-cyan-500/15 px-3 py-1  text-cyan-200">
+                {{ idea.title }}
+              </h4>
+            </div>
             <div class="flex items-center gap-3 shrink-0" (click)="$event.stopPropagation()">
               <button (click)="likeIdea(idea.id)"
                       class="flex items-center gap-2 bg-white/5 border border-white/10 hover:bg-cyan-500/10 hover:border-cyan-500/30 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition duration-300">
@@ -182,25 +201,11 @@ export interface Idea {
             </div>
           </div>
 
-          <div [ngClass]="isExpanded(idea.id) ? 'grid-rows-[1fr] border-t border-white/5' : 'grid-rows-[0fr]'"
-               class="grid transition-all duration-300 ease-in-out bg-black/20">
+          <div [ngClass]="isExpanded(idea.id) ? 'grid-rows-[1fr] border-t ' : 'grid-rows-[0fr]'"
+               class="grid transition-all duration-300 ease-in-out bg-black/20 border-white/5">
             <div class="overflow-hidden">
               <div class="p-6 space-y-6">
 
-                <div class="flex items-center gap-3.5 bg-white/[0.01] border border-white/5 p-4 rounded-xl">
-                  <div class="relative">
-                    <div
-                      class="w-11 h-11 rounded-full border-2 border-cyan-500/20 p-0.5 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-base font-bold text-cyan-400 select-none">
-                      {{ idea.author.name.charAt(0) }}
-                    </div>
-                    <span
-                      class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-950 rounded-full animate-pulse"></span>
-                  </div>
-                  <div>
-                    <h5 class="text-xs sm:text-sm font-bold text-slate-200">{{ idea.author.name }}</h5>
-                    <p class="text-[11px] text-slate-400 mt-0.5">{{ idea.author.role }}</p>
-                  </div>
-                </div>
 
                 <div class="bg-gradient-to-br from-white/[0.03] to-transparent p-5 rounded-xl border border-white/5">
                   <h6 class="text-xs font-bold text-cyan-400 mb-2">📄 چکیده ایده:</h6>
@@ -341,7 +346,8 @@ export interface Idea {
             </div>
 
             <div class="space-y-1.5 ngx-editor-dark">
-              <label class="text-xs font-bold text-slate-300">سند جامع و مستندات (HTML) <span class="text-rose-400">*</span></label>
+              <label class="text-xs font-bold text-slate-300">سند جامع و مستندات (HTML) <span
+                class="text-rose-400">*</span></label>
 
               <div class="border border-white/10 rounded-2xl overflow-hidden bg-slate-950/40" *ngIf="editor">
                 <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
@@ -518,13 +524,16 @@ export interface Idea {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         padding: 6px !important;
       }
+
       .ngx-editor-dark .NgxEditor__MenuBar .NgxEditor__MenuItem--Icon {
         color: #cbd5e1 !important;
       }
+
       .ngx-editor-dark .NgxEditor__MenuBar .NgxEditor__MenuItem--Icon:hover {
         background: rgba(255, 255, 255, 0.1) !important;
         color: #22d3ee !important;
       }
+
       .ngx-editor-dark .NgxEditor {
         background: transparent !important;
         color: #f1f5f9 !important;
@@ -536,6 +545,7 @@ export interface Idea {
         padding: 12px !important;
         border: none !important;
       }
+
       .ngx-editor-dark .NgxEditor__Placeholder {
         right: 12px !important;
         left: auto !important;
@@ -547,6 +557,7 @@ export interface Idea {
         text-align: right;
         line-height: 2;
       }
+
       .html-document-container h2 {
         color: #22d3ee; /* رنگ سایان */
         font-size: 1.5rem;
@@ -556,10 +567,12 @@ export interface Idea {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         padding-bottom: 8px;
       }
+
       .html-document-container p {
         color: #cbd5e1;
         margin-bottom: 16px;
       }
+
       .html-document-container blockquote {
         background: rgba(6, 182, 212, 0.1);
         border-right: 4px solid #06b6d4;
@@ -567,14 +580,17 @@ export interface Idea {
         border-radius: 12px;
         margin: 20px 0;
       }
+
       .html-document-container ul {
         list-style-type: disc;
         padding-right: 24px;
         margin-bottom: 16px;
       }
+
       .html-document-container li {
         margin-bottom: 8px;
       }
+
       /* 📊 استایل‌دهی جامع و مدرن برای جداول خروجی ادیتور */
       .html-document-container table {
         width: 100% !important;
