@@ -16,14 +16,14 @@ import { CircosChartComponent } from '../../../shared/components/circos-chart.co
 
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
         <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
-          <h2 class="text-xl font-bold text-white mb-4">۱. ثبت‌نام کاربران</h2>
+          <h2 class="text-xl font-bold text-white mb-4">1.  ارتباط مسائل</h2>
           <div class="">
             <app-circos-chart [nodes]="nodes" [links]="links"></app-circos-chart>
           </div>
         </div>
 
         <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
-          <h2 class="text-xl font-bold text-cyan-400 mb-2">۱. ثبت‌نام کاربران</h2>
+          <h2 class="text-xl font-bold text-cyan-400 mb-2">2. ثبت‌نام کاربران</h2>
           <p class="text-sm text-slate-400 mb-6">روند رشد کاربران در بازه‌های زمانی مختلف.</p>
           <div class="h-64">
             <canvas baseChart [data]="lineData" [options]="commonOptions" [type]="'line'"></canvas>
@@ -31,7 +31,7 @@ import { CircosChartComponent } from '../../../shared/components/circos-chart.co
         </div>
 
         <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
-          <h2 class="text-xl font-bold text-cyan-400 mb-2">۲. دسته‌بندی مسائل و راهکارها</h2>
+          <h2 class="text-xl font-bold text-cyan-400 mb-2">3. دسته‌بندی مسائل و راهکارها</h2>
           <p class="text-sm text-slate-400 mb-6">مقایسه فعالیت حوزه‌های مختلف سیستم.</p>
           <div class="h-64">
             <canvas baseChart [data]="barData" [options]="commonOptions" [type]="'bar'"></canvas>
@@ -39,7 +39,7 @@ import { CircosChartComponent } from '../../../shared/components/circos-chart.co
         </div>
 
         <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
-          <h2 class="text-xl font-bold text-cyan-400 mb-2">۳. نرخ پاسخگویی پشتیبانی</h2>
+          <h2 class="text-xl font-bold text-cyan-400 mb-2">4. نرخ پاسخگویی پشتیبانی</h2>
           <p class="text-sm text-slate-400 mb-6">عملکرد تیم پشتیبانی به تفکیک گروه کاربری.</p>
           <div class="h-64">
             <canvas
@@ -52,7 +52,7 @@ import { CircosChartComponent } from '../../../shared/components/circos-chart.co
         </div>
 
         <div class="p-6 rounded-3xl border border-white/5 bg-slate-900/20 backdrop-blur-xl">
-          <h2 class="text-xl font-bold text-cyan-400 mb-2">۴. مشارکت و امتیازدهی</h2>
+          <h2 class="text-xl font-bold text-cyan-400 mb-2">5. مشارکت و امتیازدهی</h2>
           <p class="text-sm text-slate-400 mb-6">میزان فعالیت کاربران و الگوی امتیازدهی.</p>
           <div class="h-64">
             <canvas

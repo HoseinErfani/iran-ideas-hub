@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
       <section class="glass noise relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(14,165,233,.18),transparent_30%)]"></div>
         <div class="relative">
-          <span class="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-200">نسخه دمو / داده ماک سنگین</span>
+          <span class="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-200">نسخه دمو </span>
           <h1 class="mt-6 max-w-2xl text-4xl font-black leading-tight text-white sm:text-5xl">
             سامانه ساخت‌یافتهٔ تعریف، نقد و اجرای مسائل و ایده‌های ایران
           </h1>
