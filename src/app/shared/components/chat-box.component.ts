@@ -1,4 +1,4 @@
-import { Component, computed, HostListener, input, model, signal } from '@angular/core';
+import { Component, computed, HostListener, model, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -21,17 +21,24 @@ interface Chat {
   messages: Message[];
 }
 
+interface SystemUser {
+  id: string;
+  name: string;
+  role: string;
+  isOnline: boolean;
+}
+
 @Component({
   selector: 'app-chat-box',
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
     <div
-      class="flex h-[calc(100vh-110px)] w-full gap-4 p-4 text-slate-200 bg-slate-950 font-sans antialiased selection:bg-cyan-500/30"
+      class="flex h-[calc(100vh-110px)] w-full gap-4 p-4 text-slate-200 bg-slate-950 font-sans antialiased selection:bg-cyan-500/30 relative"
     >
       <div
         [class.hidden]="isMobile && selectedChatId()"
-        class="flex flex-col w-80 sm:w-96 rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-xl overflow-hidden"
+        class="flex flex-col w-full md:w-80 lg:w-96 rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-xl overflow-hidden flex-shrink-0"
       >
         <div class="p-4 flex items-center justify-between border-b border-white/5 bg-white/[0.01]">
           <h1 class="text-xl font-black text-white flex items-center gap-2">
@@ -43,7 +50,7 @@ interface Chat {
             </span>
           </h1>
           <button
-            (click)="createNewChat()"
+            (click)="isModalOpen.set(true)"
             class="p-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-105 active:scale-95 group"
           >
             <svg
@@ -65,7 +72,7 @@ interface Chat {
               type="text"
               [(ngModel)]="searchQuery"
               placeholder="جستجوی مخاطب یا پیام..."
-              class="w-full text-right bg-slate-900/60 border border-white/5 rounded-xl py-2.5 pr-10 pl-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/40 focus:ring-1 focus:ring-cyan-500/40 transition-all"
+              class="w-full text-right bg-slate-900/60 border border-white/5 rounded-xl py-2.5 pr-10 pl-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/40 transition-all"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -148,6 +155,13 @@ interface Chat {
             style="direction: rtl;"
           >
             <div class="flex items-center gap-3">
+              <button
+                (click)="selectedChatId.set(null)"
+                class="md:hidden p-2 rounded-xl border border-white/5 bg-white/[0.01] text-slate-400 ml-1"
+              >
+                ←
+              </button>
+
               <div
                 class="w-11 h-11 rounded-xl bg-gradient-to-tr from-slate-800 to-slate-700 border border-white/10 flex items-center justify-center overflow-hidden"
               >
@@ -211,7 +225,7 @@ interface Chat {
                   [class.border]="msg.sender === 'other'"
                   [class.border-white/5]="msg.sender === 'other'"
                   [class.rounded-bl-none]="msg.sender === 'other'"
-                  class="max-w-[70%]  p-3.5 rounded-2xl text-sm leading-6 shadow-md text-right relative group"
+                  class="max-w-[70%] p-3.5 rounded-2xl text-sm leading-6 shadow-md text-right relative group"
                 >
                   <p class="whitespace-pre-wrap pl-8">{{ msg.text }}</p>
                   <span
@@ -234,13 +248,12 @@ interface Chat {
                 name="messageInput"
                 autocomplete="off"
                 placeholder="پیام خود را اینجا بنویسید..."
-                class="flex-1 bg-slate-900/60 border border-white/5 rounded-2xl py-3 px-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/40 focus:ring-1 focus:ring-cyan-500/40 transition-all shadow-inner"
+                class="flex-1 bg-slate-900/60 border border-white/5 rounded-2xl py-3 px-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/40 transition-all shadow-inner"
               />
-
               <button
                 type="submit"
                 [disabled]="!newMessageText.trim()"
-                class="p-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:hover:bg-cyan-500 text-slate-950 transition-all duration-200 flex items-center justify-center shadow-lg shadow-cyan-500/10 disabled:shadow-none"
+                class="p-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 text-slate-950 transition-all duration-200 flex items-center justify-center shadow-lg"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -285,10 +298,56 @@ interface Chat {
             </p>
           </div>
         }
-        <button (click)="selectedChatId.set(null)" class="md:hidden p-2 text-slate-400">
-          ← بازگشت به لیست
-        </button>
       </div>
+
+      @if (isModalOpen()) {
+        <div
+          class="absolute inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md transition-all"
+        >
+          <div
+            class="w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl p-5 shadow-2xl flex flex-col max-h-[80vh]"
+          >
+            <div class="flex items-center justify-between pb-3 border-b border-white/5 mb-4">
+              <h3 class="text-base font-black text-white">شروع گفتگوی جدید</h3>
+              <button
+                (click)="isModalOpen.set(false)"
+                class="text-xs text-slate-400 hover:text-white px-2 py-1 rounded-lg bg-white/5"
+              >
+                بستن
+              </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto space-y-2 custom-scrollbar" style="direction: rtl;">
+              @for (user of systemUsers(); track user.id) {
+                <div
+                  (click)="startChatWithUser(user)"
+                  class="flex items-center justify-between p-3 rounded-2xl bg-white/[0.02] border border-transparent hover:border-cyan-500/20 hover:bg-cyan-500/5 cursor-pointer transition-all"
+                >
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-10 h-10 rounded-xl bg-slate-800 border border-white/5 flex items-center justify-center font-bold text-sm text-slate-300 relative"
+                    >
+                      {{ user.name.substring(0, 2) }}
+                      @if (user.isOnline) {
+                        <span
+                          class="absolute -bottom-0.5 -left-0.5 w-2.5 h-2.5 bg-emerald-500 border border-slate-900 rounded-full"
+                        ></span>
+                      }
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm font-bold text-white">{{ user.name }}</p>
+                      <p class="text-[11px] text-slate-400">{{ user.role }}</p>
+                    </div>
+                  </div>
+                  <span class="text-[11px] text-cyan-400 bg-cyan-500/10 px-2 py-1 rounded-lg"
+                    >انتخاب</span
+                  >
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
     </div>
   `,
   styles: [
@@ -299,8 +358,6 @@ interface Chat {
       .border-cyan-500-20 {
         border-color: rgba(6, 182, 212, 0.25) !important;
       }
-
-      /* اسکرول‌بار سفارشی و گلس */
       .custom-scrollbar::-webkit-scrollbar {
         width: 5px;
       }
@@ -320,13 +377,37 @@ interface Chat {
 export class ChatBoxComponent {
   searchQuery = '';
   newMessageText = '';
-  selectedChatId = signal<string | null>('chat-1'); // چت اول پیش‌فرض باز باشد
+  selectedChatId = signal<string | null>('chat-1');
   isMobile = false;
-  // 📦 داده‌های فیک و کامل ماک الهام گرفته از اعضای تیم ایده بورد شما
+  isModalOpen = signal<boolean>(false); // وضعیت باز/بسته بودن مودال مخاطبین
+
+  // لیست کاربران کل سیستم برای پاپ‌آپ نیوچت
+  readonly systemUsers = signal<SystemUser[]>([
+    {
+      id: 'user-100',
+      name: 'مهندس امین رئیسی',
+      role: 'متخصص بلاکچین و اینترنت اشیا',
+      isOnline: true,
+    },
+    {
+      id: 'user-101',
+      name: 'دکتر الناز شاکری',
+      role: 'توسعه‌دهنده هوش مصنوعی هیدرولوژی',
+      isOnline: false,
+    },
+    { id: 'user-102', name: 'سارا کریمی', role: 'طراح ارشد رابط کاربری پایلوت‌ها', isOnline: true },
+    {
+      id: 'user-103',
+      name: 'پروفسور کاوه بهرامی',
+      role: 'مشاور عالی پایش منابع آب',
+      isOnline: false,
+    },
+  ]);
+
   readonly chats = model<Chat[]>([
     {
       id: 'chat-1',
-      name: 'دکتر ارسلان حکیمی' + ' ' + '(راهبر سیستم)',
+      name: 'دکتر ارسلان حکیمی (راهبر سیستم)',
       role: 'استادیار دانشگاه شریف',
       avatar: '',
       lastMessage: 'پروپوزال نهایی سنسورهای حقابه رو آپدیت کردم، لطفا بررسی کنید.',
@@ -357,7 +438,7 @@ export class ChatBoxComponent {
     },
     {
       id: 'chat-2',
-      name: 'مهندس فرزاد فرخی' + ' ' + '(راهبر سیستم)',
+      name: 'مهندس فرزاد فرخی (راهبر سیستم)',
       role: 'اقتصاد کشاورزی',
       avatar: '',
       lastMessage: 'ممنون، فردا ساعت ۱۰ جلسه حضوری داریم.',
@@ -385,37 +466,21 @@ export class ChatBoxComponent {
         },
       ],
     },
-    {
-      id: 'chat-3',
-      name: 'دکتر مریم شمس' + ' ' + '(راهبر سیستم)',
-      role: 'رئیس آزمایشگاه رمزنگاری',
-      avatar: '',
-      lastMessage: 'مکانیزم Social Recovery روی بلاکچین با موفقیت تست شد.',
-      time: '۳ روز قبل',
-      unreadCount: 0,
-      isOnline: true,
-      messages: [
-        {
-          id: 'm8',
-          sender: 'other',
-          text: 'مکانیزم Social Recovery روی بلاکچین با موفقیت تست شد.',
-          time: '۳ روز قبل',
-        },
-      ],
-    },
   ]);
+
   constructor() {
     this.checkScreenSize();
   }
+
   @HostListener('window:resize')
   onResize() {
     this.checkScreenSize();
   }
 
   checkScreenSize() {
-    this.isMobile = window.innerWidth < 768; // سایز md در tailwind
+    this.isMobile = window.innerWidth < 768;
   }
-  // 🔍 فیلتر کردن چت‌ها بر اساس سرچ باکس
+
   filteredChats = computed(() => {
     const query = this.searchQuery.trim().toLowerCase();
     if (!query) return this.chats();
@@ -425,31 +490,21 @@ export class ChatBoxComponent {
     );
   });
 
-  // 💡 یافتن چت فعال کنونی
-  currentChat = computed(() => {
-    return this.chats().find((c) => c.id === this.selectedChatId()) || null;
-  });
+  currentChat = computed(() => this.chats().find((c) => c.id === this.selectedChatId()) || null);
 
-  // انتخاب چت و صفر کردن Unread
   selectChat(id: string) {
     this.selectedChatId.set(id);
     this.chats.update((allChats) =>
-      allChats.map((c) => {
-        if (c.id === id) {
-          return { ...c, unreadCount: 0 };
-        }
-        return c;
-      }),
+      allChats.map((c) => (c.id === id ? { ...c, unreadCount: 0 } : c)),
     );
   }
 
-  // 🚀 ارسال واقعی پیام جدید و اضافه شدن به آرایه چت
   sendMessage() {
     if (!this.newMessageText.trim() || !this.selectedChatId()) return;
 
     const currentId = this.selectedChatId()!;
     const textToSend = this.newMessageText;
-    this.newMessageText = ''; // پاک کردن سریع اینپوت
+    this.newMessageText = '';
 
     const now = new Date();
     const timeStr =
@@ -460,17 +515,14 @@ export class ChatBoxComponent {
     this.chats.update((allChats) =>
       allChats.map((chat) => {
         if (chat.id === currentId) {
-          const newMsg: Message = {
-            id: 'msg-' + Date.now(),
-            sender: 'me',
-            text: textToSend,
-            time: timeStr,
-          };
           return {
             ...chat,
             lastMessage: textToSend,
             time: timeStr,
-            messages: [...chat.messages, newMsg],
+            messages: [
+              ...chat.messages,
+              { id: 'msg-' + Date.now(), sender: 'me', text: textToSend, time: timeStr },
+            ],
           };
         }
         return chat;
@@ -478,31 +530,39 @@ export class ChatBoxComponent {
     );
   }
 
-  // ➕ ساخت چت جدید (دکمه پلاس تلگرامی)
-  createNewChat() {
-    const name = prompt('نام مخاطب جدید را وارد کنید:');
-    if (!name) return;
+  // 🚀 وقتی کاربری را در مودال انتخاب می‌کنیم
+  startChatWithUser(user: SystemUser) {
+    // ابتدا چک کنیم آیا از قبل با این کاربر چت بازی داریم یا نه
+    const existingChat = this.chats().find((c) => c.id === user.id);
 
-    const newChat: Chat = {
-      id: 'chat-' + Date.now(),
-      name: name,
-      role: 'کاربر جدید سیستم',
-      avatar: '',
-      lastMessage: 'گفتگو آغاز شد.',
-      time: 'همین الان',
-      unreadCount: 0,
-      isOnline: true,
-      messages: [
-        {
-          id: 'm-init',
-          sender: 'other',
-          text: `سلام! به سیستم گفتگو خوش آمدید.`,
-          time: 'همین الان',
-        },
-      ],
-    };
+    if (existingChat) {
+      this.selectedChatId.set(existingChat.id);
+    } else {
+      // اگر چت وجود نداشت، یک چت ماک جدید برایش می‌سازیم
+      const newChat: Chat = {
+        id: user.id,
+        name: user.name,
+        role: user.role,
+        avatar: '',
+        lastMessage: 'گفتگو آغاز شد.',
+        time: 'همین الان',
+        unreadCount: 0,
+        isOnline: user.isOnline,
+        messages: [
+          {
+            id: 'm-init',
+            sender: 'other',
+            text: `سلام مهندس! گفتگو با ${user.name} آغاز شد.`,
+            time: 'همین الان',
+          },
+        ],
+      };
 
-    this.chats.update((allChats) => [newChat, ...allChats]);
-    this.selectedChatId.set(newChat.id);
+      this.chats.update((allChats) => [newChat, ...allChats]);
+      this.selectedChatId.set(newChat.id);
+    }
+
+    // بستن خودکار مودال بعد از هدایت به صفحه چت مخاطب
+    this.isModalOpen.set(false);
   }
 }
